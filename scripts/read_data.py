@@ -1,4 +1,4 @@
-#%%https://swe.ssa.esa.int/web/guest/csr-ept-federated
+# %%
 import numpy as np
 import pandas as pd
 import gzip
@@ -8,7 +8,7 @@ from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 import pyIGRF
 
 import matplotlib.pyplot as plt
-from mpl_toolkits.basemap import Basemap
+#from mpl_toolkits.basemap import Basemap
 from matplotlib.colors import LogNorm
 
 from idl_colorbars import *
@@ -17,6 +17,11 @@ import matplotlib.patheffects as pe
 from matplotlib.patheffects import Stroke, Normal
 
 import cartopy.mpl.geoaxes
+
+from pathlib import Path
+
+# %%
+
 
 def calculateMag(xspace, yspace, year, height):
     euator = np.zeros((len(xspace), 2))
@@ -85,23 +90,22 @@ def add_zebra_frame(ax, lw=2, crs="pcarree", zorder=None):
                         pe.Normal(),
                     ],
                 )
-#%%
+
 
 # xspace = np.arange(-180,181,0.5)
 # yspace = np.arange(-90,91, 0.5)
 # incl, euator, magnt = calculateMag(xspace, yspace, 2024., 100)
-
   # Print each line (or process it as needed)
 # %%
 storm_num = "storm1"
-PATH = f"/Users/zemarchezi/Downloads/Proba_stormJan2026/PROBAV_EPT_PersonalDataSet/"
+PATH = f"C:\\Users\\karen\\Programas\\particle_precipitation\\data"
 
-year = 2026
-month = 2
+year = 2013
+month = 9
 
 
-day1 =1
-day2 = 3
+day1 = 27
+day2 = 28
 datas = []
 
 columns = ['Y', 'M', 'D', 'H', 'MI', 'S', 'mS', 'AMJD', 'FLAG', 'e-fl-00', 'e-fl-01', 'e-fl-02', 'e-fl-03', 
@@ -115,7 +119,7 @@ columns = ['Y', 'M', 'D', 'H', 'MI', 'S', 'mS', 'AMJD', 'FLAG', 'e-fl-00', 'e-fl
  'Bvec-2', 'Long', 'Lat', 'Rad', 'PitchU', 'BvecU-0', 'BvecU-1', 'BvecU-2', 'BU', 'LU', 'Rinv', 
  'Lat_mag', 'Lat_inv', 'MLTU', 'PitchI', 'BvecI-0', 'BvecI-1', 'BvecI-2', 'BI', 'LI', 'MLTI']
 for day in range(day1,day2+1):
-    data_path = f'{PATH}/PROBAV_EPT_{year:04d}{month:02d}{day:02d}_L1d.dat.gz'
+    data_path = f'{PATH}/PROBAV_EPT_{year:04d}{month:02d}{day:02d}_L1d.dat'
     data = np.loadtxt(data_path,skiprows=25)
 
     df = pd.DataFrame(data, columns=columns)
@@ -194,7 +198,17 @@ cbar.set_label(r'MeV$^{-1}$cm$^{-2}$s$^{-1}$sr$^{-1}$', fontsize=14)
 # Add a title
 plt.title(f"500-600 keV, {day1:02d}-{day2:02d} {month}-{year} \n", fontsize=16)
 
-plt.savefig(f'{storm_num}_proba-v_500-600keV-{day1:02d}-{day2:02d}_{month}_{year}.jpg', dpi=200, bbox_inches='tight')
+
+
+FIG_PATH = Path("C:/Users/karen/Programas/particle_precipitation/figures")
+FIG_PATH.mkdir(exist_ok=True)  # garante que a pasta existe
+
+
+#plt.savefig(f'{storm_num}_proba-v_500-600keV-{day1:02d}-{day2:02d}_{month}_{year}.jpg', dpi=200, bbox_inches='tight')
+
+output_file = FIG_PATH / f"{storm_num}_proba-v_500-600keV-{day1:02d}-{day2:02d}_{month}_{year}.jpg"
+
+plt.savefig(output_file, dpi=200, bbox_inches='tight')
 
 # %%
 

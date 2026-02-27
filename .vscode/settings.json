@@ -1,7 +1,7 @@
 {
     "python.defaultInterpreterPath": "C:/Users/karen/anaconda3/envs/particle_precipitation/python.exe",
     "python.terminal.activateEnvironment": true,
+    "python.pythonPath": "C:/Users/karen/anaconda3/envs/particle_precipitation/python.exe",
     "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda",
-    "python-envs.pythonProjects": []
+    "python-envs.defaultPackageManager": "ms-python.python:conda"
 }
